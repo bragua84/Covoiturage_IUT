@@ -37,10 +37,10 @@
     </div>
   <div class="row">
     <div class="col-sm-offset-1 col-sm-4">
-      <a href="?action=update&controller=utilisateur&login=<?=$uLoginURL ?>" class="btn btn-warning btn-block" role="button">Modifier</a>
+      <a href="?action=update&controller=trajet&id=<?=$tID ?>" class="btn btn-warning btn-block" role="button">Modifier</a>
     </div>
     <div class="col-sm-offset-2 col-sm-4">
-        <a href="?action=delete&controller=utilisateur&login=<?=$uLoginURL ?>" class="btn btn-danger btn-block" role="button">Supprimer</a>
+        <a href="?action=delete&controller=trajet&id=<?=$tID ?>" class="btn btn-danger btn-block" role="button">Supprimer</a>
     </div>
   </div>
 </div>
