@@ -1,5 +1,5 @@
 <?php
-require_once (File::build_path(array('model', 'ModelUtilisateur.php'))); // chargement du modèle
+require_once (File::build_path(array('model', 'ModelUtilisateur.php')));// chargement du modèle
 class ControllerUtilisateur {
 
   protected static $object = 'utilisateur';
@@ -67,12 +67,20 @@ class ControllerUtilisateur {
     }
 
     public static function created(){
-        if(isset($_POST['login']) && isset($_POST['nom']) && isset($_POST['prenom'])){
-            $utilisateur = new ModelUtilisateur($_POST['login'], $_POST['nom'], $_POST['prenom']);
+        if(isset($_POST['login']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mdp']) && isset($_POST['mdp2'])){
+            if($_POST['mdp'] != $_POST['mdp2']){
+                $view = 'error';
+                $pagetitle = 'Erreur 404';
+                require(File::build_path(array('view', 'view.php')));
+            }
+            $mdp = Security::chiffrer($_POST['mdp']);
+
+            $utilisateur = new ModelUtilisateur($_POST['login'], $_POST['nom'], $_POST['prenom'], $mdp);
             $data = array(
                 "login" => $_POST['login'],
                 "nom" => $_POST['nom'],
-                "prenom" => $_POST['prenom']
+                "prenom" => $_POST['prenom'],
+                "mdp" => $mdp
             );
             if($utilisateur->save($data)){
                 $view = 'created';
@@ -125,13 +133,25 @@ class ControllerUtilisateur {
         }
     }
 
+    public static function connect(){
+        $view = 'connect';
+        $pagetitle = 'Connection';
+
+        $action = "connected";
+        require(File::build_path(array('view','view.php')));  //"redirige" vers la vue
+    }
+
+    public static function connected(){
+
+    }
+
     /*public static function save(){
         if(isset($_POST['login']) && isset($_POST['nom']) && isset($_POST['prenom'])){
-            $utilisateur = new ModelUtilisateur($_POST['login'], $_POST['nom'], $_POST['prenom']);
+            $utilisateur = new ModelGamer($_POST['login'], $_POST['nom'], $_POST['prenom']);
             if($utilisateur->update()){
                 $view = 'updated';
                 $pagetitle = 'Liste des utilisateurs';
-                $tab_u = ModelUtilisateur::selectAll();
+                $tab_u = ModelGamer::selectAll();
                 require(File::build_path(array('view','view.php')));
             }else{
                 $view = 'error';
