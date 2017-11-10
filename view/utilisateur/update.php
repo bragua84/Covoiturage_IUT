@@ -6,6 +6,9 @@ if(isset($_GET['login'])){
   $uLogin = htmlspecialchars($utilisateur->get('login'));
   $uNom = htmlspecialchars($utilisateur->get('nom'));
   $uPrenom = htmlspecialchars($utilisateur->get('prenom'));
+  $etat_mdp = true;
+}else{
+    $etat_mdp = false;
 }
 
  ?>
@@ -32,6 +35,22 @@ if(isset($_GET['login'])){
       <input value="<?=$uLogin?>" class="form-control" type="text" placeholder="Ex : dupontm" name="login" id="login_id" <?=$etat_login?>/>
     </div>
   </div>
+    <?php
+    if(!$etat_mdp){
+        ?>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="mdp_id">Mot de passe</label>
+            <div class="col-sm-4">
+                <input class="form-control" type="password" placeholder="Mot de passe" name="mdp" id="mdp_login"/>
+            </div>
+            <label class="control-label col-sm-2" for="mdp2_id">Confirmation de mot de passe</label>
+            <div class="col-sm-4">
+                <input class="form-control" type="password" placeholder="Mot de passe" name="mdp2" id="mdp2_login"/>
+            </div>
+        </div>
+    <?php
+    }
+    ?>
   <div class="form-group">
     <input type="submit" class="btn btn-defaut btn-block" value="Envoyer" />
   </div>
