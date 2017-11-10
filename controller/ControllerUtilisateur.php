@@ -33,7 +33,7 @@ class ControllerUtilisateur {
 
     public static function delete(){
       if(isset($_GET['login'])){
-          if(Session::is_user($_GET[$login])){
+          if(Session::is_user($_GET['login'])){
               if(ModelUtilisateur::delete($_GET['login'])){
                   $login = "";
                   $view = 'deleted';
@@ -166,6 +166,7 @@ class ControllerUtilisateur {
             $mdp = Security::chiffrer($_POST['mdp']);
             if(ModelUtilisateur::checkPassword($_POST['login'], $mdp)){
                 $_SESSION['login'] = $_POST['login'];
+                $_SESSION['admin'] = ModelUtilisateur::isAdmin($_POST['login']);
                 $u = ModelUtilisateur::select($_POST['login']);
                 $view = 'detail';
                 $pagetitle = 'Details de l\'utilisateur';
