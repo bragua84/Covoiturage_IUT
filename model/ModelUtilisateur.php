@@ -10,6 +10,7 @@ require_once(File::build_path(array('model', 'Model.php')));
         private $login;
         private $nom;
         private $prenom;
+        private $mdp;
 
         function get($nom_attribut){
             return $this->$nom_attribut;
@@ -19,13 +20,16 @@ require_once(File::build_path(array('model', 'Model.php')));
             $this->$nom_attribut = $valeur;
         }
 
-        public function __construct($l = NULL, $n = NULL, $p = NULL)  {
-          if(!is_null($l) && !is_null($n) && !is_null($p)){
+        public function __construct($l = NULL, $n = NULL, $p = NULL, $mdp = NULL)  {
+          if(!is_null($l) && !is_null($n) && !is_null($p) && !is_null($mdp)){
              $this->login = $l;
              $this->nom = $n;
              $this->prenom = $p;
+             $this->mdp = $mdp;
           }
         }
+
+        public static function checkPassword($login, $mdp_chiffre){}
 
         /*public function save(){
             try {
