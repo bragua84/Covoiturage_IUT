@@ -100,31 +100,49 @@ class ControllerUtilisateur {
     }
 
     public static function update(){
-        $view = 'update';
-        $pagetitle = 'Modification d\'un utilisateur';
+        if(isset($_GET['login'])){
+            $utilisateur = ModelUtilisateur::select($_GET['login']);
 
-        $etat_login = 'readonly';
-        $action = "updated";
-        require(File::build_path(array('view','view.php')));  //"redirige" vers la vue
+            $uLogin = htmlspecialchars($utilisateur->get('login'));
+            $uNom = htmlspecialchars($utilisateur->get('nom'));
+            $uPrenom = htmlspecialchars($utilisateur->get('prenom'));
+            $etat_mdp = true;
+        }else{
+            $etat_mdp = false;
+        }
+        if(Session::is_user($uLogin)){
+            $view = 'update';
+            $pagetitle = 'Modification d\'un utilisateur';
+
+            $etat_login = 'readonly';
+            $action = "updated";
+            require(File::build_path(array('view','view.php')));  //"redirige" vers la vue
+        }else{
+            self::connect();
+        }
     }
 
     public static function updated(){
         if(isset($_POST['login']) && isset($_POST['nom']) && isset($_POST['prenom'])){
-            $utilisateur = new ModelUtilisateur($_POST['login'], $_POST['nom'], $_POST['prenom']);
-            $data = array(
-                "login" => $_POST['login'],
-                "nom" => $_POST['nom'],
-                "prenom" => $_POST['prenom']
-            );
-            if($utilisateur->update($data)){
-                $view = 'updated';
-                $pagetitle = 'Utilisateur modifier | Liste des utilisateurs';
-                $tab_u = ModelUtilisateur::selectAll();
-                require(File::build_path(array('view','view.php')));
+            if(Session::is_user($_POST['login'])){
+                $utilisateur = new ModelUtilisateur($_POST['login'], $_POST['nom'], $_POST['prenom']);
+                $data = array(
+                    "login" => $_POST['login'],
+                    "nom" => $_POST['nom'],
+                    "prenom" => $_POST['prenom']
+                );
+                if($utilisateur->update($data)){
+                    $view = 'updated';
+                    $pagetitle = 'Utilisateur modifier | Liste des utilisateurs';
+                    $tab_u = ModelUtilisateur::selectAll();
+                    require(File::build_path(array('view','view.php')));
+                }else{
+                    $view = 'error';
+                    $pagetitle = 'Erreur 404';
+                    require(File::build_path(array('view','view.php')));  //"redirige" vers la vue
+                }
             }else{
-                $view = 'error';
-                $pagetitle = 'Erreur 404';
-                require(File::build_path(array('view','view.php')));  //"redirige" vers la vue
+                self::connect();
             }
         }else{
             $view = 'error';
