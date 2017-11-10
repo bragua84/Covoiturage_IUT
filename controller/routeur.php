@@ -3,6 +3,7 @@
 require_once(File::build_path(array('controller', 'ControllerVoiture.php')));
 require_once(File::build_path(array('controller', 'ControllerUtilisateur.php')));
 require_once(File::build_path(array('controller', 'ControllerTrajet.php')));
+require_once(File::build_path(array('lib', 'Security.php')));
 
 if(isset($_GET['action']))
 {
