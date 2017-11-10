@@ -35,6 +35,16 @@
         </div>
     <?php
     }
+    if(Session::is_admin()){
+        ?>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="admin_id">Privilège administrateur</label>
+            <label class="radio-inline col-sm-offset-1 col-sm-1"><input type="radio" name="admin">Oui</label>
+            <label class="radio-inline col-sm-1"><input type="radio" name="admin" checked>Non</label>
+        </div>
+    <?php
+    }
     ?>
   <div class="form-group">
     <input type="submit" class="btn btn-defaut btn-block" value="Envoyer" />
