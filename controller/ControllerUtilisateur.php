@@ -143,9 +143,10 @@ class ControllerUtilisateur {
 
     public static function connected(){
         if(isset($_POST['login']) && isset($_POST['mdp'])){
-            $mdp = Security::chiffrer($_POST('mdp'));
+            $mdp = Security::chiffrer($_POST['mdp']);
             if(ModelUtilisateur::checkPassword($_POST['login'], $mdp)){
-                $u = ModelUtilisateur::select($_GET['login']);
+                $_SESSION['login'] = $_POST['login'];
+                $u = ModelUtilisateur::select($_POST['login']);
                 $view = 'detail';
                 $pagetitle = 'Details de l\'utilisateur';
                 require(File::build_path(array('view','view.php')));
