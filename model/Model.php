@@ -140,19 +140,20 @@ public function save($data){
         $table_name = static::$object;
         $class_name = 'Model' . ucfirst($table_name);
         $primary_key = static::$primary;
-
+        $colone = "";
         $insert = "";
 
         foreach($data as $champ_id => $champ){
+            $colone = $colone . $champ_id . ",";
             $insert = $insert . ":" . $champ_id . ",";
             $values[$champ_id] = $champ;
         }
             $insert = rtrim($insert, ',');
+            $colone = rtrim($colone, ',');
 
-            $sql = "INSERT INTO $table_name VALUES ($insert)";
+            $sql = "INSERT INTO $table_name ($colone) VALUES ($insert)";
 
             $req_prep = Model::$pdo->prepare($sql);
-
             $req_prep->execute($values);
             return true;
         } catch (PDOException $e) {
