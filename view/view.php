@@ -65,6 +65,21 @@
             <li  class="<?php if(static::$object == "utilisateur"){echo 'active';}?>"><a href="index.php?action=readAll&controller=utilisateur">Gestion des utilisateurs</a></li>
             <li  class="<?php if(static::$object == "trajet"){echo 'active';}?>"><a href="index.php?action=readAll&controller=trajet">Gestion des trajets</a></li>
           </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <?php
+                if(!isset($_SESSION['login'])){
+                    ?>
+                    <li><a href="./index.php?action=connect&controller=utilisateur"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
+                <?php
+                }else{
+                    $prenom = ModelUtilisateur::select($_SESSION['login'])->get('prenom');
+                    ?>
+                    <li><a>Bonjour <?=$prenom?>!</a></li>
+                    <li><a href="./index.php?action=deconnect&controller=utilisateur"><span class="glyphicon glyphicon-log-out"></span> Deconnexion</a></li>
+                <?php
+                }
+                ?>
+            </ul>
         </div>
       </nav>
 <?php
