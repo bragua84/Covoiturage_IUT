@@ -61,6 +61,38 @@ require_once(File::build_path(array('model', 'Model.php')));
             }
         }
 
+        public function isAdmin(){
+            try {
+                $table_name = static::$object;
+                $class_name = 'Model' . ucfirst($table_name);
+
+                $sql = "SELECT * from $table_name WHERE login=:login AND admin=:mdp";
+                $req_prep = Model::$pdo->prepare($sql);
+
+                $values = array(
+                    "login" => $this->login,
+                    "mdp" => true
+                );
+
+                $req_prep->execute($values);
+
+                $req_prep->setFetchMode(PDO::FETCH_CLASS, $class_name);
+                $tab_class = $req_prep->fetchAll();
+
+                if (empty($tab_class))
+                    return false;
+                else
+                    return true;
+            } catch (PDOException $e) {
+                if (Conf::getDebug()) {
+                    echo $e->getMessage(); // affiche un message d'erreur
+                } else {
+                    echo 'Une erreur est survenue <a href=""> retour a la page d\'accueil </a>';
+                }
+                return false;
+            }
+        }
+
         /*public function save(){
             try {
                 $sql = "INSERT INTO utilisateur VALUES (:login, :nom, :prenom)";
