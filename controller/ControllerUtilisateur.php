@@ -136,13 +136,33 @@ class ControllerUtilisateur {
     public static function connect(){
         $view = 'connect';
         $pagetitle = 'Connection';
-
+        $error = false;
         $action = "connected";
         require(File::build_path(array('view','view.php')));  //"redirige" vers la vue
     }
 
     public static function connected(){
-
+        if(isset($_POST['login']) && isset($_POST['mdp'])){
+            $mdp = Security::chiffrer($_POST('mdp'));
+            if(ModelUtilisateur::checkPassword($_POST['login'], $mdp)){
+                $u = ModelUtilisateur::select($_GET['login']);
+                $view = 'detail';
+                $pagetitle = 'Details de l\'utilisateur';
+                require(File::build_path(array('view','view.php')));
+            }else{
+                $view = 'connect';
+                $pagetitle = 'Connection';
+                $error = true;
+                $action = "connected";
+                require(File::build_path(array('view','view.php')));  //"redirige" vers la vue
+            }
+        }else{
+            $view = 'connect';
+            $pagetitle = 'Connection';
+            $error = true;
+            $action = "connected";
+            require(File::build_path(array('view','view.php')));  //"redirige" vers la vue
+        }
     }
 
     /*public static function save(){
