@@ -14,7 +14,13 @@
     ?>
     </ul>
   </div>
-  <div class="row">
-    <a href="?action=create&controller=<?=static::$object?>" class="btn btn-success btn-block" role="button">Ajouter un utilisateur</a>
-  </div>
+    <?php
+    if(Session::is_admin()){
+    ?>
+        <div class="row">
+            <a href="?action=create&controller=<?=static::$object?>" class="btn btn-success btn-block" role="button">Ajouter un utilisateur</a>
+        </div>
+    <?php
+    }
+    ?>
 </div>
