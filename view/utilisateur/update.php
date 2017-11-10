@@ -1,18 +1,3 @@
-<?php
-
-if(isset($_GET['login'])){
-  $utilisateur = ModelUtilisateur::select($_GET['login']);
-
-  $uLogin = htmlspecialchars($utilisateur->get('login'));
-  $uNom = htmlspecialchars($utilisateur->get('nom'));
-  $uPrenom = htmlspecialchars($utilisateur->get('prenom'));
-  $etat_mdp = true;
-}else{
-    $etat_mdp = false;
-}
-
- ?>
-
 <form class="form-horizontal col-sm-offset-1 col-sm-10" method="post" action="?action=<?=$action?>&controller=<?=static::$object?>">
   <div class="form-group">
     <legend><?=$pagetitle?></legend>
