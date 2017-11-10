@@ -71,21 +71,21 @@ class ControllerTrajet {
     }
 
     public static function created(){
-        if(isset($_POST['id']) && isset($_POST['depart']) && isset($_POST['arrive']) && isset($_POST['date']) && isset($_POST['nbplace']) && isset($_POST['prix']) && isset($_POST['conducteur_login'])){
-            $trajet = new ModelUtilisateur($_POST['id'], $_POST['depart'], $_POST['arrive'], $_POST['date'], $_POST['nbplace'], $_POST['prix'], $_POST['conducteur_login']);
+        if(isset($_POST['id']) && isset($_POST['depart']) && isset($_POST['arrive']) && isset($_POST['date']) && isset($_POST['nbplaces']) && isset($_POST['prix']) && isset($_POST['conducteur_login'])){
+            $trajet = new ModelTrajet($_POST['id'], $_POST['depart'], $_POST['arrive'], $_POST['date'], $_POST['nbplaces'], $_POST['prix'], $_POST['conducteur_login']);
             $data = array(
                 "id" => $_POST['id'],
                 "depart" => $_POST['depart'],
                 "arrive" => $_POST['arrive'],
                 "date" => $_POST['date'],
-                "nbplace" => $_POST['nbplace'],
+                "nbplaces" => $_POST['nbplaces'],
                 "prix" => $_POST['prix'],
                 "conducteur_login" => $_POST['conducteur_login']
             );
             if($trajet->save($data)){
                 $view = 'created';
                 $pagetitle = 'Trajet créer | Liste des trajets';
-                $tab_u = ModelUtilisateur::selectAll();
+                $tab_t = ModelTrajet::selectAll();
                 require(File::build_path(array('view','view.php')));
             }else{
                 $view = 'error';
@@ -109,14 +109,14 @@ class ControllerTrajet {
     }
 
     public static function updated(){
-        if(isset($_POST['id']) && isset($_POST['depart']) && isset($_POST['arrive']) && isset($_POST['date']) && isset($_POST['nbplace']) && isset($_POST['prix']) && isset($_POST['conducteur_login'])){
-            $trajet = new ModelUtilisateur($_POST['id'], $_POST['depart'], $_POST['arrive'], $_POST['date'], $_POST['nbplace'], $_POST['prix'], $_POST['conducteur_login']);
+        if(isset($_POST['id']) && isset($_POST['depart']) && isset($_POST['arrive']) && isset($_POST['date']) && isset($_POST['nbplaces']) && isset($_POST['prix']) && isset($_POST['conducteur_login'])){
+            $trajet = new ModelTrajet($_POST['id'], $_POST['depart'], $_POST['arrive'], $_POST['date'], $_POST['nbplaces'], $_POST['prix'], $_POST['conducteur_login']);
             $data = array(
                 "id" => $_POST['id'],
                 "depart" => $_POST['depart'],
                 "arrive" => $_POST['arrive'],
                 "date" => $_POST['date'],
-                "nbplace" => $_POST['nbplace'],
+                "nbplaces" => $_POST['nbplaces'],
                 "prix" => $_POST['prix'],
                 "conducteur_login" => $_POST['conducteur_login']
             );
