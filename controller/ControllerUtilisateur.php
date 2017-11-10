@@ -33,17 +33,21 @@ class ControllerUtilisateur {
 
     public static function delete(){
       if(isset($_GET['login'])){
-        if(ModelUtilisateur::delete($_GET['login'])){
-          $login = "";
-          $view = 'deleted';
-          $pagetitle = 'Utilisateur supprimer | Liste des utilisateurs';
-          $tab_u = ModelUtilisateur::selectAll();
-          require(File::build_path(array('view','view.php')));
-        }else{
-            $view = 'error';
-            $pagetitle = 'Erreur 404';
-            require(File::build_path(array('view','view.php')));  //"redirige" vers la vue
-        }
+          if(Session::is_user($_GET[$login])){
+              if(ModelUtilisateur::delete($_GET['login'])){
+                  $login = "";
+                  $view = 'deleted';
+                  $pagetitle = 'Utilisateur supprimer | Liste des utilisateurs';
+                  $tab_u = ModelUtilisateur::selectAll();
+                  require(File::build_path(array('view','view.php')));
+              }else{
+                  $view = 'error';
+                  $pagetitle = 'Erreur 404';
+                  require(File::build_path(array('view','view.php')));  //"redirige" vers la vue
+              }
+          }else{
+              self::connect();
+          }
       }else{
           $view = 'error';
           $pagetitle = 'Erreur 404';
