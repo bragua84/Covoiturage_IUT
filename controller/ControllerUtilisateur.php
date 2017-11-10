@@ -166,6 +166,15 @@ class ControllerUtilisateur {
         }
     }
 
+    public static function deconnect(){
+        if(isset($_SESSION)){
+            session_unset();
+            session_destroy();
+            setcookie(session_name(),'',time()-1);
+            self::readAll();
+        }
+    }
+
     /*public static function save(){
         if(isset($_POST['login']) && isset($_POST['nom']) && isset($_POST['prenom'])){
             $utilisateur = new ModelGamer($_POST['login'], $_POST['nom'], $_POST['prenom']);
