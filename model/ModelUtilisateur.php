@@ -61,17 +61,17 @@ require_once(File::build_path(array('model', 'Model.php')));
             }
         }
 
-        public function isAdmin(){
+        public static function isAdmin($login){
             try {
                 $table_name = static::$object;
                 $class_name = 'Model' . ucfirst($table_name);
 
-                $sql = "SELECT * from $table_name WHERE login=:login AND admin=:mdp";
+                $sql = "SELECT * from $table_name WHERE login=:login AND admin=:admin";
                 $req_prep = Model::$pdo->prepare($sql);
 
                 $values = array(
-                    "login" => $this->login,
-                    "mdp" => true
+                    "login" => $login,
+                    "admin" => true
                 );
 
                 $req_prep->execute($values);
