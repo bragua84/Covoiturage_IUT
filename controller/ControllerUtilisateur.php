@@ -64,6 +64,7 @@ class ControllerUtilisateur {
         $uLogin = "";
         $uNom = "";
         $uPrenom = "";
+        $etat_mdp = false;
 
         $etat_login = "required";
         $action = "created";
@@ -110,14 +111,11 @@ class ControllerUtilisateur {
             $uLogin = htmlspecialchars($utilisateur->get('login'));
             $uNom = htmlspecialchars($utilisateur->get('nom'));
             $uPrenom = htmlspecialchars($utilisateur->get('prenom'));
-            $etat_mdp = true;
-        }else{
-            $etat_mdp = false;
         }
         if(Session::is_user($uLogin)){
             $view = 'update';
             $pagetitle = 'Modification d\'un utilisateur';
-
+            $etat_mdp = true;
             $etat_login = 'readonly';
             $action = "updated";
             require(File::build_path(array('view','view.php')));  //"redirige" vers la vue
