@@ -71,7 +71,7 @@ require_once(File::build_path(array('model', 'Model.php')));
 
                 $values = array(
                     "login" => $login,
-                    "admin" => true
+                    "admin" => 1
                 );
 
                 $req_prep->execute($values);
