@@ -40,8 +40,8 @@
 
         <div class="form-group">
             <label class="control-label col-sm-2" for="admin_id">Privilège administrateur</label>
-            <label class="radio-inline col-sm-offset-1 col-sm-1"><input type="radio" name="admin">Oui</label>
-            <label class="radio-inline col-sm-1"><input type="radio" name="admin" checked>Non</label>
+            <label class="radio-inline col-sm-offset-1 col-sm-1"><input type="radio" name="admin" value="1">Oui</label>
+            <label class="radio-inline col-sm-1"><input type="radio" name="admin" checked value="0">Non</label>
         </div>
     <?php
     }
