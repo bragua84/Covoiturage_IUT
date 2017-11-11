@@ -58,21 +58,26 @@ class ControllerUtilisateur {
 
 
     public static function create(){
-        $view = 'update';
-        $pagetitle = 'Ajout d\'un utilisateur';
+        if(Session::is_admin()){
+            $view = 'update';
+            $pagetitle = 'Ajout d\'un utilisateur';
 
-        $uLogin = "";
-        $uNom = "";
-        $uPrenom = "";
-        $etat_mdp = false;
+            $uLogin = "";
+            $uNom = "";
+            $uPrenom = "";
+            $etat_mdp = false;
 
-        $etat_login = "required";
-        $action = "created";
-        require(File::build_path(array('view','view.php')));  //"redirige" vers la vue
+            $etat_login = "required";
+            $action = "created";
+
+            require(File::build_path(array('view','view.php')));  //"redirige" vers la vue
+        }else{
+            self::connect();
+        }
     }
 
     public static function created(){
-        if(isset($_POST['login']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mdp']) && isset($_POST['mdp2'])){
+        if(isset($_POST['login']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mdp']) && isset($_POST['mdp2']) && isset($_POST['admin'])){
             if($_POST['mdp'] != $_POST['mdp2']){
                 $view = 'error';
                 $pagetitle = 'Erreur 404';
@@ -80,22 +85,27 @@ class ControllerUtilisateur {
             }
             $mdp = Security::chiffrer($_POST['mdp']);
 
-            $utilisateur = new ModelUtilisateur($_POST['login'], $_POST['nom'], $_POST['prenom'], $mdp);
+            $utilisateur = new ModelUtilisateur($_POST['login'], $_POST['nom'], $_POST['prenom'], $mdp, $_POST['admin']);
             $data = array(
                 "login" => $_POST['login'],
                 "nom" => $_POST['nom'],
                 "prenom" => $_POST['prenom'],
-                "mdp" => $mdp
+                "mdp" => $mdp,
+                "admin" => $_POST['admin']
             );
-            if($utilisateur->save($data)){
-                $view = 'created';
-                $pagetitle = 'Utilisateur créer | Liste des utilisateurs';
-                $tab_u = ModelUtilisateur::selectAll();
-                require(File::build_path(array('view','view.php')));
+            if(Session::is_admin()){
+                if($utilisateur->save($data)){
+                    $view = 'created';
+                    $pagetitle = 'Utilisateur créer | Liste des utilisateurs';
+                    $tab_u = ModelUtilisateur::selectAll();
+                    require(File::build_path(array('view','view.php')));
+                }else{
+                    $view = 'error';
+                    $pagetitle = 'Erreur 404';
+                    require(File::build_path(array('view','view.php')));  //"redirige" vers la vue
+                }
             }else{
-                $view = 'error';
-                $pagetitle = 'Erreur 404';
-                require(File::build_path(array('view','view.php')));  //"redirige" vers la vue
+                self::connect();
             }
         }else{
             $view = 'error';
